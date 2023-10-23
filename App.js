@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, StatusBar, SafeAreaView, Image, FlatList, TouchableWithoutFeedback, Pressable} from 'react-native';
+import { StyleSheet, Text, View, StatusBar, SafeAreaView, Image, FlatList, TouchableOpacity, Pressable} from 'react-native';
 import { SearchBar, ListItem } from '@rneui/themed';
 import React, {useState, useEffect} from "react";
 import { NavigationContainer } from '@react-navigation/native';
@@ -16,7 +16,7 @@ import styles from './Styles.js'
 function RankingScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{paddingLeft:10, paddingRight:10}}>
+      <View style={{}}>
         <TopRanking navigation={navigation}/>
       </View>
     </SafeAreaView>
@@ -34,30 +34,52 @@ function SearchScreen({ navigation }) {
 function DetailsScreen({ route, navigation }) {
   const { anime } = route.params;
   return (
-    <View style={{padding:10}}>
-      <View style={styles.detailsContainer}>
-        <Image
-          source={{ uri: anime.image }}
-          style={styles.leftImage}
-        />
-        <View style={styles.textContainer}>
-          <Text numberOfLines={1} style={{ fontWeight: "bold" }}>{anime.title}</Text>
-          <Text>⭐{anime.score}</Text>
-          <Text style={{ color: "gray" }}>{anime.season}</Text>
+    <View style={styles.detailsContainer}>
+      <Image
+        source={{ uri: anime.image }}
+        style={{
+          //flex: 1,
+          height: '80%',
+          resizeMode: 'cover',
+          borderTopLeftRadius:10,
+          borderTopRightRadius:10,
+        }}
+      />
+      <View style={styles.textContainer}>
+        <View style={{
+          backgroundColor: "white",
+          flexDirection: 'row',
+          alignItems: 'top',
+          justifyContent: 'space-between',
+          position: "absolute",
+          bottom: 10,
+          width: '100%',
+          height: '100%'
+        }}>
+          <View style={{paddingLeft:10, paddingTop:5, paddingRight:10, width: "70%"}}>
+            <Text numberOfLines={1} style={{ fontWeight: "bold", fontSize: 25 }}>{anime.title}</Text>
+            <Text style={{ fontSize: 20 }}>⭐{anime.score}</Text>
+            <Text style={{ color: "gray", fontSize: 20}}>{anime.season}</Text>   
+          </View>
+
+          <TouchableOpacity style={styles.bigButton} onPress={
+            //() => navigation.navigate(
+            //  'MapScreen', {anime: anime}
+            //)
+            () => navigation.navigate(
+              'DetailsStack', 
+              {
+                screen: "Map",
+                params: {anime: anime}
+              }
+            )
+          
+          }>
+            <Ionicons name="map-outline" size={64} color={'#347af0'} />
+            <Text style={styles.bigButtonText}>Map</Text>
+          </TouchableOpacity>
         </View>
       </View>
-      <Pressable style={styles.wideButton} onPress={
-        //() => navigation.navigate(
-        //  'MapScreen', {anime: anime}
-        //)
-        () => navigation.navigate(
-          'DetailsStack', 
-          {
-            screen: "Map",
-            params: {anime: anime}
-          }
-        )
-      }><Text style={styles.wideButtonText}>View Map</Text></Pressable>
     </View>
   );
 }
