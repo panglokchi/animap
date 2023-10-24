@@ -97,12 +97,6 @@ const styles = StyleSheet.create({
         //backgroundColor: 'white',
         //paddingVertical: 10,
     },
-    galleryItemExpanded: {
-        height: WINDOW_HEIGHT - 350
-    },
-    galleryItemCollapsed: {
-        display: 'none',
-    }
 });
 
 export default styles;
